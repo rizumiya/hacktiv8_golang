@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
-	
+
+	"github.com/gin-gonic/gin"
+
 	"tugas_2_api/database"
 	"tugas_2_api/handler"
 )
@@ -21,6 +22,6 @@ func main() {
 	router.PUT("/orders/:orderId", handler.UpdateOrder)
 	router.DELETE("/orders/:orderId", handler.DeleteOrder)
 
-	log.Fatal(http.ListenAndServe(":8080", router)) 
+	log.Fatal(http.ListenAndServe(":8080", router))
 
 }
