@@ -13,7 +13,7 @@ import (
 var (
 	dbInstance = "localhost:3306"
 	username   = "root"
-	dbName     = "test"
+	dbName     = "peminjaman_buku"
 	dbConnType = "tcp"
 	db         *gorm.DB
 )
