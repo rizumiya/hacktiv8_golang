@@ -45,7 +45,7 @@ func VehicleManipulationAuthorization() gin.HandlerFunc {
 			})
 			return
 		}
-
+		
 		c.Next()
 	}
 }
