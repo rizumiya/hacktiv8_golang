@@ -46,6 +46,15 @@ func ReportManipulationAuthorization() gin.HandlerFunc {
 			return
 		}
 
+		err = db.Where("id = ?", uint(reportId)).Where("report_status_id = ?", 1).First(&report).Error
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+				"error":   "Already processed your report",
+				"message": "You can't update this while your report is being processed",
+			})
+			return
+		}
+
 		c.Next()
 	}
 }

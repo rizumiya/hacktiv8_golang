@@ -19,29 +19,20 @@ func StartApp() *gin.Engine {
 	}
 
 	user := r.Group("/user")
-	userRouter := user.Group("/")
+	userRouter := user.Group("/").Use(middlewares.Authentication()).Use(middlewares.UserAuthentication()).Use(middlewares.UserAuthorization())
 	{
-		userRouter.Use(middlewares.Authentication())
-		userRouter.Use(middlewares.UserAuthentication())
-		userRouter.Use(middlewares.UserAuthorization())
 		userRouter.PUT("/:userId", middlewares.UserManipulationAuthorization(), controllers.UpdateUser)
 		userRouter.DELETE("/:userId", middlewares.UserManipulationAuthorization(), controllers.DeleteUser)
 	}
-	userVehicleRouter := user.Group("/vehicle")
+	userVehicleRouter := user.Group("/vehicle").Use(middlewares.Authentication()).Use(middlewares.UserAuthentication()).Use(middlewares.UserAuthorization())
 	{
-		userVehicleRouter.Use(middlewares.Authentication())
-		userVehicleRouter.Use(middlewares.UserAuthentication()) 
-		userVehicleRouter.Use(middlewares.UserAuthorization()) 
 		userVehicleRouter.GET("", controllers.UserGetVehicles)
 		userVehicleRouter.POST("", controllers.CreateVehicle)
 		userVehicleRouter.PUT("/:vehicleId", middlewares.VehicleManipulationAuthorization(), controllers.UpdateVehicle)
 		userVehicleRouter.DELETE("/:vehicleId", middlewares.VehicleManipulationAuthorization(), controllers.DeleteVehicle)
 	}
-	userReportRouter := user.Group("/report")
+	userReportRouter := user.Group("/report").Use(middlewares.Authentication()).Use(middlewares.UserAuthentication()).Use(middlewares.UserAuthorization())
 	{
-		userReportRouter.Use(middlewares.Authentication())
-		userReportRouter.Use(middlewares.UserAuthentication())
-		userReportRouter.Use(middlewares.UserAuthorization())
 		userReportRouter.GET("", controllers.UserGetAllReports)
 		userReportRouter.POST("", controllers.CreateReport)
 		userReportRouter.PUT("/:reportId", middlewares.ReportManipulationAuthorization(), controllers.UpdateReport)
@@ -49,17 +40,13 @@ func StartApp() *gin.Engine {
 	}
 
 	admin := r.Group("/admin")
-	adminRouter := admin.Group("/")
+	adminRouter := admin.Group("/").Use(middlewares.Authentication()).Use(middlewares.AdminAuthorization())
 	{
-		adminRouter.Use(middlewares.Authentication())
-		adminRouter.Use(middlewares.AdminAuthorization())
 		adminRouter.PUT("/:userId", middlewares.UserManipulationAuthorization(), controllers.UpdateUser)
 		adminRouter.DELETE("/:userId", middlewares.UserManipulationAuthorization(), controllers.DeleteUser)
 	}
-	adminReportRouter := admin.Group("/report")
+	adminReportRouter := admin.Group("/report").Use(middlewares.Authentication()).Use(middlewares.AdminAuthorization())
 	{
-		adminReportRouter.Use(middlewares.Authentication())
-		adminReportRouter.Use(middlewares.AdminAuthorization())
 		adminReportRouter.GET("", controllers.AdminGetAllReports)
 		adminReportRouter.PUT("/:reportId", controllers.AdminUpdateReportStatus)
 	}
